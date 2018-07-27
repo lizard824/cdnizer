@@ -14,7 +14,7 @@ function makeCdnizer(opts) {
 	"use strict";
 
 	opts = parseOptions(opts);
-
+	var append = opts.appendix || '';
 	function cdnizer(contents) {
 
 		var canAddFallback = opts.shouldAddFallback && contents.indexOf('<head') !== -1;
@@ -36,6 +36,7 @@ function makeCdnizer(opts) {
 						test: fileInfo.test
 					});
 					result += _.template(fileInfo.cdn || opts.defaultCDN, params, lodashTemplateSettings);
+					result += append;
 					result += post;
 					if(canAddFallback && m.fallback && fileInfo.test) {
 						result += _.template(opts.fallbackTest, params, lodashTemplateSettings);
